@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -28,7 +28,7 @@ const createData = (
   top10: number,
 ): Data => ({ name, vid, traf, top3, top10 });
 
-const initialRows: Data[] = [
+const rows: Data[] = [
   createData('Site A', 10, 240, 13, 47),
   createData('Site B', 20, 192, 30, 98),
   createData('Site C', 30, 150, 7, 85),
@@ -37,20 +37,7 @@ const initialRows: Data[] = [
 
 const SortableTable: React.FC = () => {
   const [order, setOrder] = useState<Order>('desc');
-  const [orderBy, setOrderBy] = useState<keyof Data>('vid');
-  const [sortedRows, setSortedRows] = useState<Data[]>([]);
-
-  useEffect(() => {
-    const comparator = (a: Data, b: Data) => {
-      if (order === 'asc') {
-        return a[orderBy] - b[orderBy];
-      }
-      return b[orderBy] - a[orderBy];
-    };
-
-    const sorted = initialRows.slice().sort(comparator);
-    setSortedRows(sorted);
-  }, [order, orderBy]);
+  const [orderBy, setOrderBy] = useState<keyof Data>('traf');
 
   const handleSortRequest = (property: keyof Data) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -58,20 +45,22 @@ const SortableTable: React.FC = () => {
     setOrderBy(property);
   };
 
-  const calculateRatings = () => {
-    // Always sort in descending order for ratings calculation
-    const comparator = (a: Data, b: Data) => b[orderBy] - a[orderBy];
-    const ratingsSorted = initialRows.slice().sort(comparator);
+  const sortedRows = (): Array<{ row: Data; rating: number }> => {
+    const comparator = (a: Data, b: Data) => {
+      if (order === 'asc') {
+        return (a[orderBy] ?? 0) - (b[orderBy] ?? 0);
+      }
+      return (b[orderBy] ?? 0) - (a[orderBy] ?? 0);
+    };
 
-    const ratingsMap = new Map(ratingsSorted.map((row, index) => [row.name, index + 1]));
+    const sorted = rows.slice().sort(comparator);
 
-    return sortedRows.map((row) => ({
+    return sorted.map((row, index) => ({
       row,
-      rating: ratingsMap.get(row.name) || sortedRows.length, // Default in case of error
+      // Calculate rating from sorted position: highest value gets 1
+      rating: index + 1,
     }));
   };
-
-  const ratedRows = calculateRatings();
 
   return (
     <TableContainer component={Paper}>
@@ -119,7 +108,7 @@ const SortableTable: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {ratedRows.map(({ row, rating }) => (
+          {sortedRows().map(({ row, rating }) => (
             <TableRow key={row.name}>
               <TableCell>{rating}</TableCell>
               <TableCell>{row.name}</TableCell>
