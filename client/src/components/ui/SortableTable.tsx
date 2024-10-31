@@ -12,14 +12,15 @@ import {
   IconButton,
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
+import type { RatingType } from '../types/rating';
 
-type Data = {
-  name: string;
-  vid: number;
-  traf: number;
-  top3: number;
-  top10: number;
-};
+// type Data = {
+//   name: string;
+//   vid: number;
+//   traf: number;
+//   top3: number;
+//   top10: number;
+// };
 
 type Order = 'asc' | 'desc';
 
@@ -29,9 +30,9 @@ const createData = (
   traf: number,
   top3: number,
   top10: number,
-): Data => ({ name, vid, traf, top3, top10 });
+): RatingType => ({ name, vid, traf, top3, top10 });
 
-const initialRows: Data[] = [
+const initialRows: RatingType[] = [
   createData('Site A', 10, 240, 13, 47),
   createData('Site B', 20, 192, 30, 98),
   createData('Site C', 30, 150, 7, 85),
@@ -39,7 +40,7 @@ const initialRows: Data[] = [
 ];
 
 // Устанавливаем порядок сортировки по умолчанию для каждого столбца
-const defaultSortOrders: Record<keyof Data, Order> = {
+const defaultSortOrders: Record<keyof RatingType, Order> = {
   name: 'asc',
   vid: 'desc', // Изменяем на 'desc' для правильной сортировки рейтинга VID
   traf: 'desc',
@@ -47,24 +48,28 @@ const defaultSortOrders: Record<keyof Data, Order> = {
   top10: 'desc',
 };
 
-const SortableTable: React.FC = () => {
+type SortableTableProps = {
+  data: RatingType[];
+};
+
+const SortableTable: React.FC<SortableTableProps> = ({ data }) => {
   const [order, setOrder] = useState<Order>('desc'); // Начальный порядок сортировки
-  const [orderBy, setOrderBy] = useState<keyof Data>('traf'); // Сортировка по умолчанию по 'traf'
-  const [sortedRows, setSortedRows] = useState<Data[]>([]);
+  const [orderBy, setOrderBy] = useState<keyof RatingType>('traf'); // Сортировка по умолчанию по 'traf'
+  const [sortedRows, setSortedRows] = useState<RatingType[]>([]);
 
   useEffect(() => {
-    const comparator = (a: Data, b: Data) => {
+    const comparator = (a: RatingType, b: RatingType) => {
       if (order === 'asc') {
         return a[orderBy] - b[orderBy];
       }
       return b[orderBy] - a[orderBy];
     };
 
-    const sorted = initialRows.slice().sort(comparator);
+    const sorted = data.slice().sort(comparator);
     setSortedRows(sorted);
-  }, [order, orderBy]);
+  }, [data, order, orderBy]);
 
-  const handleSortRequest = (property: keyof Data) => {
+  const handleSortRequest = (property: keyof RatingType) => {
     const isAsc = orderBy === property && order === 'asc';
     const newOrder = isAsc ? 'desc' : 'asc';
 
@@ -74,11 +79,11 @@ const SortableTable: React.FC = () => {
   };
 
   const calculateRatings = () => {
-    const vidComparator = (a: Data, b: Data) => b.vid - a.vid; // Изменено на b - a
-    const otherComparator = (a: Data, b: Data) => b[orderBy] - a[orderBy];
+    const vidComparator = (a: RatingType, b: RatingType) => b.vid - a.vid; // Изменено на b - a
+    const otherComparator = (a: RatingType, b: RatingType) => b[orderBy] - a[orderBy];
     const comparator = orderBy === 'vid' ? vidComparator : otherComparator;
 
-    const ratingsSorted = initialRows.slice().sort(comparator);
+    const ratingsSorted = data.slice().sort(comparator);
 
     const ratingsMap = new Map(ratingsSorted.map((row, index) => [row.name, index + 1]));
 

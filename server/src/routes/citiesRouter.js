@@ -3,7 +3,7 @@ const { Ekaterinburg } = require('../../db/models');
 
 const cityRouter = Router();
 
-cityRouter.get('/', async (req, res) => {
+cityRouter.get('/all', async (req, res) => {
   const cities = await Ekaterinburg.findAll();
   res.json(cities);
 });

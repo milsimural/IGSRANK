@@ -12,5 +12,6 @@ app.use(cookieParser());
 app.use('/api/auth', require('./routes/authRouter'));
 app.use('/api/tokens', require('./routes/tokensRouter'));
 app.use('/api/admin', require('./routes/adminRouter'));
+app.use('/api/cities', require('./routes/citiesRouter'));
 
 module.exports = app;
