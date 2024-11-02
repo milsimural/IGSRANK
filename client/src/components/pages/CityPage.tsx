@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { Container, Typography, Box, Paper } from '@mui/material';
 import SortableTable from '../ui/SortableTable';
 import type { RatingType, ApiRatingResponseType } from '../types/rating';
 
@@ -16,9 +17,15 @@ export default function CityPage(): JSX.Element {
   }, []);
 
   return (
-    <div>
-      <h1>City</h1>
-      <SortableTable data={rating} />
-    </div>
+    <Container maxWidth="lg">
+      <Box sx={{ marginTop: 4, padding: 2 }}>
+        <Typography variant="h4" component="h1" gutterBottom>
+          Екатеринбург
+        </Typography>
+        <Paper elevation={3} sx={{ padding: 2 }}>
+          <SortableTable data={rating} />
+        </Paper>
+      </Box>
+    </Container>
   );
 }

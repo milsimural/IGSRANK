@@ -16,45 +16,40 @@ import type { RatingType } from '../types/rating';
 
 type Order = 'asc' | 'desc';
 
-const defaultSortOrders: Record<keyof RatingType, Order> = {
-  name: 'asc',
-  vid: 'desc',
-  traf: 'desc',
-  top3: 'desc',
-  top10: 'desc',
-};
-
-type SortableTableProps = {
-  data: RatingType[];
-};
-
-const SortableTable: React.FC<SortableTableProps> = ({ data }) => {
+function SortableTable({ data }: { data: RatingType[] }): JSX.Element {
   const [order, setOrder] = useState<Order>('desc');
   const [orderBy, setOrderBy] = useState<keyof RatingType>('traf');
   const [rowsPerPage, setRowsPerPage] = useState<number>(30);
-  const [visibleRows, setVisibleRows] = useState<any[]>([]);
+  const [visibleRows, setVisibleRows] = useState<RatingType[]>([]);
+  const [ratings, setRatings] = useState<number[]>([]);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const sorted = [...data].sort((a, b) =>
+    const sortedData = [...data].sort((a, b) =>
       order === 'asc' ? a[orderBy] - b[orderBy] : b[orderBy] - a[orderBy],
     );
 
-    setVisibleRows(sorted.slice(0, rowsPerPage));
+    setVisibleRows(sortedData.slice(0, rowsPerPage));
+
+    const ranking = sortedData.map((_, index) => index + 1);
+    if (order === 'asc') {
+      ranking.reverse();
+    }
+
+    setRatings(ranking);
   }, [data, order, orderBy, rowsPerPage]);
 
   const handleSortRequest = (property: keyof RatingType) => {
     const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isSameColumn = orderBy === property;
+    setOrder(isSameColumn ? (isAsc ? 'desc' : 'asc') : 'desc');
     setOrderBy(property);
   };
 
   const loadMoreRows = useCallback(() => {
     if (!containerRef.current) return;
 
-    const { scrollTop } = containerRef.current;
-    const { scrollHeight } = containerRef.current;
-    const { clientHeight } = containerRef.current;
+    const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
 
     if (scrollTop + clientHeight >= scrollHeight - 50) {
       setRowsPerPage((prev) => prev + 20);
@@ -82,18 +77,23 @@ const SortableTable: React.FC<SortableTableProps> = ({ data }) => {
       <Table stickyHeader style={{ tableLayout: 'fixed' }}>
         <TableHead>
           <TableRow>
-            <TableCell style={{ width: '50px' }}>Rating</TableCell>
-            <TableCell>Name</TableCell>
+            <TableCell style={{ width: '50px', fontWeight: 'bold' }}>Rating</TableCell>
+            <TableCell style={{ fontWeight: 'bold' }}>Name</TableCell>
             {['traf', 'vid', 'top3', 'top10'].map((field) => (
-              <TableCell key={field} sortDirection={orderBy === field ? order : false}>
+              <TableCell
+                key={field}
+                sortDirection={orderBy === field ? order : false}
+                style={{ fontWeight: 'bold' }}
+              >
                 <TableSortLabel
                   active={orderBy === field}
-                  direction={orderBy === field ? order : 'asc'}
+                  direction={orderBy === field ? order : 'desc'}
                   onClick={() => handleSortRequest(field as keyof RatingType)}
+                  sx={{ '&.Mui-active, & *': { color: 'blue' } }} 
                 >
                   {field.toUpperCase()}
                 </TableSortLabel>
-                <Tooltip title={field}>
+                <Tooltip title={`Click to sort by ${field}`}>
                   <IconButton size="small">
                     <InfoIcon fontSize="inherit" />
                   </IconButton>
@@ -105,7 +105,7 @@ const SortableTable: React.FC<SortableTableProps> = ({ data }) => {
         <TableBody>
           {visibleRows.map((row, index) => (
             <TableRow key={index}>
-              <TableCell>{index + 1}</TableCell>
+              <TableCell>{ratings[index]}</TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.traf}</TableCell>
               <TableCell>{row.vid}</TableCell>
@@ -117,6 +117,6 @@ const SortableTable: React.FC<SortableTableProps> = ({ data }) => {
       </Table>
     </TableContainer>
   );
-};
+}
 
 export default SortableTable;
