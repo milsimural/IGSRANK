@@ -4,10 +4,12 @@ import Layout from './components/Layout';
 import MainPage from './components/pages/MainPage';
 import MarketingPage from './components/extended/marketing-page/MarketingPage';
 import CityPage from './components/pages/CityPage';
-import SignUp from './components/extended/sign-up/SignUp';
-import SignIn from './components/extended/sign-in/SignIn';
+import SignUp from './components/pages/SignUp';
+import SignIn from './components/pages/SignIn';
 import Dashboard from './components/extended/dashboard/Dashboard';
 import axiosInstance, { setAccessToken } from './axiosInstance';
+import RatingPage from './components/pages/RatingPage';
+
 
 function App(): JSX.Element {
   const [user, setUser] = useState(null);
@@ -29,7 +31,7 @@ function App(): JSX.Element {
 
   const routes = [
     {
-      element: <Layout />,
+      element: <Layout user={user} logoutHandler={logoutHandler} />,
       children: [
         {
           path: '/',
@@ -55,6 +57,10 @@ function App(): JSX.Element {
           path: '/dashboard',
           element: <Dashboard />,
         },
+        {
+          path: '/rating',
+          element: <RatingPage />,
+        }
       ],
     },
   ];

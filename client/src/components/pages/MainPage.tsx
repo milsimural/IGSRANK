@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import NavBar from '../ui/NavBar';
+import { Container } from '@mui/material';
 
 export default function MainPage(): JSX.Element {
   return (
     <div>
-      <h1>Рейтинг строительных компаний в Екатеринбурге</h1>
+      <Container>
+      <h1>Рейтинг строительных компаний</h1>
+      </Container>
+      
 
-      <NavBar />
     </div>
   );
 }

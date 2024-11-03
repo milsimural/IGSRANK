@@ -25,6 +25,7 @@
     "@mui/x-date-pickers": "^7.22.1",
     "@mui/x-date-pickers-pro": "^7.22.1",
     "@mui/x-tree-view": "^7.22.1",
+    "@toolpad/core": "^0.8.1",
     "axios": "^1.7.7",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",

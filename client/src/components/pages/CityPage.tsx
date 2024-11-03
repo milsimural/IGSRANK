@@ -26,6 +26,7 @@ export default function CityPage(): JSX.Element {
           <SortableTable data={rating} />
         </Paper>
       </Box>
+      
     </Container>
   );
 }
