@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import axiosInstance, { setAccessToken } from '../../axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage({ user, setUser }): JSX.Element {
   const [formData, setFormData] = useState({
@@ -8,19 +9,22 @@ export default function LoginPage({ user, setUser }): JSX.Element {
     password: '',
   });
 
-  const handleChange = (e) => {
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const loginHandler = async (event) => {
+  const loginHandler = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     try {
       const res = await axiosInstance.post('/auth/login', formData);
       setUser(res.data.user);
       setAccessToken(res.data.accessToken);
+      setTimeout(() => navigate('/dashboard'), 1000);
     } catch (error) {
       if (error.response) {
         console.error('Ошибка ответа сервера:', error.response.data);

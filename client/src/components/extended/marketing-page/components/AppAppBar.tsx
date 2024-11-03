@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { Link } from 'react-router-dom';
+import { Link, Link as RouterLink } from 'react-router-dom';
 import Sitemark from './SitemarkIcon';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 
@@ -31,7 +31,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: '8px 12px',
 }));
 
-export default function AppAppBar() {
+export default function AppAppBar({ user, logoutHandler }): JSX.Element {
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -81,12 +81,35 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           >
-            <Button color="primary" variant="text" size="small" component={Link} to="/signin">
-              Войти
-            </Button>
-            <Button color="primary" variant="contained" size="small" component={Link} to="/signup">
-              Регистрация
-            </Button>
+            {user ? (
+              <p>
+                Добро пожаловать, {user?.email}{' '}
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={logoutHandler}
+                  sx={{ marginLeft: 2 }}
+                >
+                  Выйти
+                </Button>
+              </p>
+            ) : (
+              <>
+                <Button color="primary" variant="text" size="small" component={Link} to="/signin">
+                  Войти
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                  component={Link}
+                  to="/signup"
+                >
+                  Регистрация
+                </Button>
+              </>
+            )}
+
             <ColorModeIconDropdown />
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>

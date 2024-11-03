@@ -12,7 +12,7 @@ interface ForgotPasswordProps {
   handleClose: () => void;
 }
 
-export default function ForgotPassword({ open, handleClose }: ForgotPasswordProps) {
+export default function ForgotPassword({ open, handleClose }: ForgotPasswordProps): JSX.Element {
   return (
     <Dialog
       open={open}
@@ -26,13 +26,12 @@ export default function ForgotPassword({ open, handleClose }: ForgotPasswordProp
         sx: { backgroundImage: 'none' },
       }}
     >
-      <DialogTitle>Reset password</DialogTitle>
+      <DialogTitle>Сбросить пароль</DialogTitle>
       <DialogContent
         sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
       >
         <DialogContentText>
-          Enter your account&apos;s email address, and we&apos;ll send you a link to
-          reset your password.
+          Введите  email адресс, привязанный к аккаунту и мы вышлем вам ссылку на смену пароля.
         </DialogContentText>
         <OutlinedInput
           autoFocus
@@ -40,16 +39,16 @@ export default function ForgotPassword({ open, handleClose }: ForgotPasswordProp
           margin="dense"
           id="email"
           name="email"
-          label="Email address"
-          placeholder="Email address"
+          label="Email"
+          placeholder="Email"
           type="email"
           fullWidth
         />
       </DialogContent>
       <DialogActions sx={{ pb: 3, px: 3 }}>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button onClick={handleClose}>Отмена</Button>
         <Button variant="contained" type="submit">
-          Continue
+          Подтвердить
         </Button>
       </DialogActions>
     </Dialog>
