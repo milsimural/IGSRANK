@@ -4,12 +4,13 @@ const axiosInstance = axios.create({
   baseURL: '/api',
 });
 
-let accessToken = '';
+let accessToken: string = '';
 
-function setAccessToken(newToken): void {
+export function setAccessToken(newToken: string): void {
   accessToken = newToken;
 }
 
+// Перехватчик запросов
 axiosInstance.interceptors.request.use((config) => {
   if (!config.headers.Authorization) {
     config.headers.Authorization = `Bearer ${accessToken}`;
@@ -17,6 +18,7 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
+// Перехватчик ответов
 axiosInstance.interceptors.response.use(
   (res) => res,
   async (err: AxiosError & { config: { sent?: boolean } }) => {
@@ -34,7 +36,5 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(err);
   },
 );
-
-export { setAccessToken };
 
 export default axiosInstance;

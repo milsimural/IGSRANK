@@ -75,8 +75,8 @@ export default function Hero() {
               fontSize: 'clamp(3rem, 10vw, 3.5rem)',
             }}
           >
-            Анализ&nbsp;конкурентов&nbsp;
-            <Typography
+            <center>Анализ конкурентов для строительных компаний</center>
+            {/* <Typography
               component="span"
               variant="h1"
               sx={(theme) => ({
@@ -88,7 +88,7 @@ export default function Hero() {
               })}
             >
               ИЖС
-            </Typography>
+            </Typography> */}
           </Typography>
           <Typography
             sx={{
@@ -97,15 +97,16 @@ export default function Hero() {
               width: { sm: '100%', md: '80%' },
             }}
           >
-            Сервис анализа конкурентов для строительных компаний. Мы предоставляем дашборды с данными: о рекламных активностях, ценах, акциях, позициях в SEO и многое другое.
+           Проанализируйте положение конкурентов в сети интернет
           </Typography>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={1}
+            justifyContent='center'
             useFlexGap
             sx={{ pt: 2, width: { xs: '100%', sm: '350px' } }}
           >
-            <InputLabel htmlFor="email-hero" sx={visuallyHidden}>
+            {/* <InputLabel htmlFor="email-hero" sx={visuallyHidden}>
               Email
             </InputLabel>
             <TextField
@@ -122,23 +123,23 @@ export default function Hero() {
                   'aria-label': 'Enter your email address',
                 },
               }}
-            />
+            /> */}
             <Button
               variant="contained"
               color="primary"
-              size="small"
+              size="medium"
               sx={{ minWidth: 'fit-content' }}
             >
               Начать
             </Button>
           </Stack>
-          <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center' }}>
+          {/* <Typography variant="caption" color="text.secondary" sx={{ textAlign: 'center' }}>
             Нажимая &quot;Начать&quot; Вы соглашаетесь с&nbsp;
             <Link href="#" color="primary">
               Правилами & Условиями
             </Link>
             .
-          </Typography>
+          </Typography> */}
         </Stack>
         <StyledBox id="image" />
       </Container>

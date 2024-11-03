@@ -26,9 +26,9 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
-export default function Dashboard(props: { disableCustomTheme?: boolean }) {
+export default function Dashboard({user, logoutHandler}): JSX.Element {
   return (
-    <AppTheme {...props} themeComponents={xThemeComponents}>
+    <AppTheme themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex' }}>
         <SideMenu />
@@ -53,7 +53,7 @@ export default function Dashboard(props: { disableCustomTheme?: boolean }) {
               mt: { xs: 8, md: 0 },
             }}
           >
-            <Header />
+            <Header user={user} logoutHandler={logoutHandler} />
             <MainGrid />
           </Stack>
         </Box>

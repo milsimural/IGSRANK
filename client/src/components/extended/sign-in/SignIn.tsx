@@ -8,6 +8,7 @@ import Divider from '@mui/material/Divider';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import Link from '@mui/material/Link';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -18,7 +19,6 @@ import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import axiosInstance, { setAccessToken } from '../../../axiosInstance';
-
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -60,43 +60,42 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn(props: { disableCustomTheme?: boolean; user?: any; setUser?: any }) {
+export default function SignIn({ user, setUser }): JSX.Element {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (): void => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setOpen(false);
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     if (emailError || passwordError) {
       event.preventDefault();
       return;
     }
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    event.preventDefault();
     await axiosInstance
       .post('/auth/login', {
         email: data.get('email'),
         password: data.get('password'),
       })
       .then((res) => {
-        props.setUser(res.data.user);
-        props.setAccessToken(res.data.accessToken);
+        setUser(res.data.user);
+        setAccessToken(res.data.accessToken);
+        navigate('/dashboard');
       });
   };
 
-  const validateInputs = () => {
+  const validateInputs = (): boolean => {
     const email = document.getElementById('email') as HTMLInputElement;
     const password = document.getElementById('password') as HTMLInputElement;
 
@@ -124,7 +123,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean; user?: any
   };
 
   return (
-    <AppTheme {...props}>
+    <AppTheme>
       <CssBaseline enableColorScheme />
       <SignInContainer direction="column" justifyContent="space-between">
         <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
@@ -205,7 +204,8 @@ export default function SignIn(props: { disableCustomTheme?: boolean; user?: any
               Вы не зарегистрированны?{' '}
               <span>
                 <Link
-                  href="/material-ui/getting-started/templates/sign-in/"
+                  component={RouterLink}
+                  to="/signup"
                   variant="body2"
                   sx={{ alignSelf: 'center' }}
                 >
