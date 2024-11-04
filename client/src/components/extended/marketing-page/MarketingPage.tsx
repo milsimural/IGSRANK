@@ -12,12 +12,12 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import AppTheme from '../shared-theme/AppTheme';
 
-export default function MarketingPage({user, logoutHandler}) {
+export default function MarketingPage(): JSX.Element {
   return (
     <AppTheme >
       <CssBaseline enableColorScheme />
 
-      <AppAppBar user={user} logoutHandler={logoutHandler}/>
+      <AppAppBar/>
       <Hero />
       <div>
         <LogoCollection />

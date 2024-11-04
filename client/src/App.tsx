@@ -7,9 +7,11 @@ import Dashboard from './components/extended/dashboard/Dashboard';
 import axiosInstance, { setAccessToken } from './axiosInstance';
 import SignIn from './components/extended/sign-in/SignIn';
 import SignUp from './components/extended/sign-up/SignUp';
+import Context from './Context';
+import type { User } from './components/types/user';
 
 function App(): JSX.Element {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<User | null>(null);
 
   const logoutHandler = async (): Promise<void> => {
     await axiosInstance.get('/auth/logout');
@@ -21,6 +23,7 @@ function App(): JSX.Element {
     axiosInstance('/tokens/refresh')
       .then((res) => {
         setUser(res.data.user);
+        console.log(`Из рефреша пришел User: ${res.data.user}`);
         setAccessToken(res.data.accessToken);
       })
       .catch(() => setUser(null));
@@ -28,11 +31,11 @@ function App(): JSX.Element {
 
   const routes = [
     {
-      element: <Layout user={user} logoutHandler={logoutHandler} />,
+      element: <Layout />,
       children: [
         {
           path: '/',
-          element: <MarketingPage user={user} logoutHandler={logoutHandler} />,
+          element: <MarketingPage />,
         },
         {
           path: '/city',
@@ -40,22 +43,26 @@ function App(): JSX.Element {
         },
         {
           path: '/signin',
-          element: <SignIn user={user} setUser={setUser} />,
+          element: <SignIn />,
         },
         {
           path: '/signup',
-          element: <SignUp user={user} setUser={setUser} />,
+          element: <SignUp />,
         },
         {
           path: '/dashboard',
-          element: <Dashboard user={user} logoutHandler={logoutHandler} />,
+          element: <Dashboard />,
         },
       ],
     },
   ];
   const router = createBrowserRouter(routes);
 
-  return <RouterProvider router={router} />;
+  return (
+    <Context.Provider value={{ user, setUser, logoutHandler }}>
+      <RouterProvider router={router} />;
+    </Context.Provider>
+  );
 }
 
 export default App;

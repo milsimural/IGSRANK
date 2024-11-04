@@ -9,6 +9,7 @@ export type UserLoginForm = {
   password: string;
 };
 
+// User который возвращает регистрация и логин
 export type User = {
   id: number;
   name: string;
@@ -17,14 +18,3 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 };
-
-type UserT<T = void> = {
-  id: T extends void ? number : undefined;
-  name: string;
-  email: string;
-  password: T extends void ? undefined : string;
-  createdAt: T extends void ? number : undefined;
-};
-
-type UserForm = UserT<string>;
-type UserData = UserT<void>;

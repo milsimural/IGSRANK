@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -8,10 +9,12 @@ import CustomDatePicker from './CustomDatePicker';
 import NavbarBreadcrumbs from './NavbarBreadcrumbs';
 import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
+import Context from '../../../../Context';
 
 import Search from './Search';
 
-export default function Header({ user, logoutHandler }): JSX.Element {
+export default function Header(): JSX.Element {
+  const value = useContext(Context);
   return (
     <Stack
       direction="row"
@@ -40,13 +43,13 @@ export default function Header({ user, logoutHandler }): JSX.Element {
             alignItems: 'center',
           }}
         >
-          {user ? (
+          {value.user ? (
             <p>
-              Добро пожаловать, {user?.email}{' '}
+              Добро пожаловать, {value.user?.email}{' '}
               <Button
                 variant="contained"
                 size="small"
-                onClick={logoutHandler}
+                onClick={value.logoutHandler}
                 sx={{ marginLeft: 2 }}
               >
                 Выйти

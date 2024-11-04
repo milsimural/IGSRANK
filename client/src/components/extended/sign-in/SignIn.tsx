@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -19,6 +20,7 @@ import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import axiosInstance, { setAccessToken } from '../../../axiosInstance';
+import Context from '../../../Context'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -60,13 +62,14 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignIn({ user, setUser }): JSX.Element {
+export default function SignIn(): JSX.Element {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+  const value = useContext(Context);
 
   const handleClickOpen = (): void => {
     setOpen(true);
@@ -89,7 +92,7 @@ export default function SignIn({ user, setUser }): JSX.Element {
         password: data.get('password'),
       })
       .then((res) => {
-        setUser(res.data.user);
+        value.setUser(res.data.user);
         setAccessToken(res.data.accessToken);
         navigate('/dashboard');
       });

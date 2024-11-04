@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
@@ -12,8 +13,10 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Link, Link as RouterLink } from 'react-router-dom';
+import { Typography } from '@mui/material';
 import Sitemark from './SitemarkIcon';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
+import Context from '../../../../Context';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -31,8 +34,9 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: '8px 12px',
 }));
 
-export default function AppAppBar({ user, logoutHandler }): JSX.Element {
+export default function AppAppBar(): JSX.Element {
   const [open, setOpen] = React.useState(false);
+  const value = useContext(Context);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -60,17 +64,8 @@ export default function AppAppBar({ user, logoutHandler }): JSX.Element {
               <Button variant="text" color="info" size="small">
                 Отзывы
               </Button>
-              <Button variant="text" color="info" size="small">
-                Преимущества
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Стоимость
-              </Button>
               <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
                 Типовые вопросы
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                Блог
               </Button>
             </Box>
           </Box>
@@ -81,18 +76,18 @@ export default function AppAppBar({ user, logoutHandler }): JSX.Element {
               alignItems: 'center',
             }}
           >
-            {user ? (
-              <p>
-                Добро пожаловать, {user?.email}{' '}
+            {value.user ? (
+              <>
+                <Typography color="textPrimary">Добро пожаловать, {value.user?.email}{' '}</Typography>
                 <Button
                   variant="contained"
                   size="small"
-                  onClick={logoutHandler}
+                  onClick={value.logoutHandler}
                   sx={{ marginLeft: 2 }}
                 >
                   Выйти
                 </Button>
-              </p>
+              </>
             ) : (
               <>
                 <Button color="primary" variant="text" size="small" component={Link} to="/signin">
