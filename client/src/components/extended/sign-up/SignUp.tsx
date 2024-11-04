@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -18,6 +19,7 @@ import AppTheme from '../shared-theme/AppTheme';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import axiosInstance, { setAccessToken } from '../../../axiosInstance';
+import Context from '../../../Context'
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -59,8 +61,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export default function SignUp(props: { disableCustomTheme?: boolean; user?; setUser? }) {
-  console.log(props);
+export default function SignUp(): JSX.Element {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -68,8 +69,9 @@ export default function SignUp(props: { disableCustomTheme?: boolean; user?; set
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
   const navigate = useNavigate();
+  const value = useContext(Context);
 
-  const validateInputs = () => {
+  const validateInputs = (): boolean => {
     const email = document.getElementById('email') as HTMLInputElement;
     const password = document.getElementById('password') as HTMLInputElement;
     const name = document.getElementById('name') as HTMLInputElement;
@@ -119,8 +121,10 @@ export default function SignUp(props: { disableCustomTheme?: boolean; user?; set
         email: data.get('email'),
         password: data.get('password'),
       });
-      props.setUser(res.data.user);
+      value.setUser(res.data.user);
+      console.log(res.data.user);
       setAccessToken(res.data.accessToken);
+      console.log(res.data.accessToken);
       alert('Регистрация прошла успешно');
       navigate('/');
     } catch (error) {
@@ -129,7 +133,7 @@ export default function SignUp(props: { disableCustomTheme?: boolean; user?; set
   };
 
   return (
-    <AppTheme {...props}>
+    <AppTheme >
       <CssBaseline enableColorScheme />
       <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
       <SignUpContainer direction="column" justifyContent="space-between">

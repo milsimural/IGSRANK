@@ -5,6 +5,10 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["./src/*"]
+    },
 
     /* For material https://mui.com/material-ui/guides/typescript/ */
     "noImplicitAny": true,

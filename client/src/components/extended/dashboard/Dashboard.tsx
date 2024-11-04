@@ -26,7 +26,7 @@ const xThemeComponents = {
   ...treeViewCustomizations,
 };
 
-export default function Dashboard({user, logoutHandler}): JSX.Element {
+export default function Dashboard(): JSX.Element {
   return (
     <AppTheme themeComponents={xThemeComponents}>
       <CssBaseline enableColorScheme />
@@ -53,7 +53,7 @@ export default function Dashboard({user, logoutHandler}): JSX.Element {
               mt: { xs: 8, md: 0 },
             }}
           >
-            <Header user={user} logoutHandler={logoutHandler} />
+            <Header />
             <MainGrid />
           </Stack>
         </Box>
