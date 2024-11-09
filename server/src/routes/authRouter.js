@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 const { User } = require('../../db/models');
 
@@ -103,13 +104,13 @@ authRouter.post('/audit', async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: 'yandex',
       auth: {
-        user: 'qwerty@revanta.ru',
-        pass: '54691FTPa1234FAX12AFAf',
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
     const mailOptions = {
-      from: 'qwerty@revanta.ru',
+      from: process.env.EMAIL_USER,
       to: email,
       subject: 'Новый запрос на аудит',
       text: `Данные отправлены успешно!\nСайт: ${site}\nТелефон: ${phone}`,
