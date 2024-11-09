@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 
 const { User } = require('../../db/models');
@@ -83,6 +84,42 @@ authRouter.patch('/money/:userId/:moneyAmmount', async (req, res) => {
   } catch (error) {
     console.error('Error updating user money:', error);
     return res.status(500).send(error.message);
+  }
+});
+
+// authRouter.post('/audit', async (req, res) => {
+//   try {
+//     const { site, phone } = req.body;
+//     res.status(200).send(`Данные отправлены успешно! ${site} ${phone}`);
+//   } catch (error) {
+//     res.status(500).send(error.message);
+//   }
+// });
+
+authRouter.post('/audit', async (req, res) => {
+  try {
+    const { site, phone, email } = req.body;
+
+    const transporter = nodemailer.createTransport({
+      service: 'yandex',
+      auth: {
+        user: 'qwerty@revanta.ru',
+        pass: '54691FTPa1234FAX12AFAf',
+      },
+    });
+
+    const mailOptions = {
+      from: 'qwerty@revanta.ru',
+      to: email,
+      subject: 'Новый запрос на аудит',
+      text: `Данные отправлены успешно!\nСайт: ${site}\nТелефон: ${phone}`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).send(`Email успешно отправлен! ${site} ${phone}`);
+  } catch (error) {
+    res.status(500).send(`Ошибка при отправке email: ${error.message}`);
   }
 });
 

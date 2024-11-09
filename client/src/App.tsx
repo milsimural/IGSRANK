@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import Layout from './components/Layout';
 import MarketingPage from './components/extended/marketing-page/MarketingPage';
 import CityPage from './components/pages/CityPage';
@@ -9,6 +10,7 @@ import SignIn from './components/extended/sign-in/SignIn';
 import SignUp from './components/extended/sign-up/SignUp';
 import Context from './Context';
 import type { User } from './components/types/user';
+import store from './store';
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
@@ -60,7 +62,9 @@ function App(): JSX.Element {
 
   return (
     <Context.Provider value={{ user, setUser, logoutHandler }}>
-      <RouterProvider router={router} />;
+      <Provider store={store}>
+        <RouterProvider router={router} />;
+      </Provider>
     </Context.Provider>
   );
 }

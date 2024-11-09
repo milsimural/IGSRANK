@@ -32,7 +32,7 @@ export default function Dashboard(): JSX.Element {
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex' }}>
         <SideMenu />
-        <AppNavbar />
+        {/* <AppNavbar /> */}
         {/* Main content */}
         <Box
           component="main"
