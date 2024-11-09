@@ -58,7 +58,7 @@ export default function AppAppBar(): JSX.Element {
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <Sitemark />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color="info" size="small">
+              {/* <Button variant="text" color="info" size="small">
                 Возможности
               </Button>
               <Button variant="text" color="info" size="small">
@@ -66,7 +66,7 @@ export default function AppAppBar(): JSX.Element {
               </Button>
               <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
                 Типовые вопросы
-              </Button>
+              </Button> */}
             </Box>
           </Box>
           <Box

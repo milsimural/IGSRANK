@@ -46,7 +46,7 @@ export default function Footer() {
           justifyContent: 'space-between',
         }}
       >
-        <Box
+        {/* <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -90,8 +90,8 @@ export default function Footer() {
               </Button>
             </Stack>
           </Box>
-        </Box>
-        <Box
+        </Box> */}
+        {/* <Box
           sx={{
             display: { xs: 'none', sm: 'flex' },
             flexDirection: 'column',
@@ -156,7 +156,7 @@ export default function Footer() {
           <Link color="text.secondary" variant="body2" href="#">
             Contact
           </Link>
-        </Box>
+        </Box> */}
       </Box>
       <Box
         sx={{
@@ -169,18 +169,21 @@ export default function Footer() {
         }}
       >
         <div>
-          <Link color="text.secondary" variant="body2" href="#">
+          {/* <Link color="text.secondary" variant="body2" href="#">
             Privacy Policy
+          </Link> */}
+          <Link color="text.secondary" variant="body2" href="https://revanta.ru">
+          Агентство "Реванта"
           </Link>
-          <Typography sx={{ display: 'inline', mx: 0.5, opacity: 0.5 }}>
+          {/* <Typography sx={{ display: 'inline', mx: 0.5, opacity: 0.5 }}>
             &nbsp;•&nbsp;
           </Typography>
           <Link color="text.secondary" variant="body2" href="#">
             Terms of Service
-          </Link>
-          <Copyright />
+          </Link> */}
+          {/* <Copyright /> */}
         </div>
-        <Stack
+        {/* <Stack
           direction="row"
           spacing={1}
           useFlexGap
@@ -213,7 +216,7 @@ export default function Footer() {
           >
             <LinkedInIcon />
           </IconButton>
-        </Stack>
+        </Stack> */}
       </Box>
     </Container>
   );

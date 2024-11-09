@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMenuActivePoint } from 'src/menuSlice';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -12,27 +14,39 @@ import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import HelpRoundedIcon from '@mui/icons-material/HelpRounded';
+import { useNavigate } from 'react-router-dom';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import { RootState } from 'src/store';
 
-const mainListItems = [
-  { text: 'Home', icon: <HomeRoundedIcon /> },
-  { text: 'Analytics', icon: <AnalyticsRoundedIcon /> },
-  { text: 'Clients', icon: <PeopleRoundedIcon /> },
-  { text: 'Tasks', icon: <AssignmentRoundedIcon /> },
-];
+export default function MenuContent(): JSX.Element {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-const secondaryListItems = [
-  { text: 'Settings', icon: <SettingsRoundedIcon /> },
-  { text: 'About', icon: <InfoRoundedIcon /> },
-  { text: 'Feedback', icon: <HelpRoundedIcon /> },
-];
+  const activePoint = useSelector((state: RootState) => state.menu.menuActivePoint);
 
-export default function MenuContent() {
+  const handleClick = (city) => {
+    dispatch(setMenuActivePoint(city)); // Устанавливаем новое значение
+  };
+
+  const mainListItems = [
+    { text: 'Москва', icon: <LocationCityIcon />, link: () => handleClick('moscow'), value: 'moscow' },
+    { text: 'Екатеринбург', icon: <LocationCityIcon />, link: () => handleClick('ekaterinburg'), value: 'ekaterinburg' },
+    { text: 'Челябинск', icon: <LocationCityIcon />, link: () => handleClick('chel'), value: 'chel' },
+    { text: 'Пермь', icon: <LocationCityIcon />, link: () => handleClick('perm'), value: 'perm' },
+  ];
+
+  const secondaryListItems = [
+    { text: 'Settings', icon: <SettingsRoundedIcon /> },
+    { text: 'About', icon: <InfoRoundedIcon /> },
+    { text: 'Feedback', icon: <HelpRoundedIcon /> },
+  ];
+
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
       <List dense>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton selected={index === 0}>
+            <ListItemButton onClick={item.link} selected={activePoint === item.value}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
@@ -40,7 +54,7 @@ export default function MenuContent() {
         ))}
       </List>
 
-      <List dense>
+      {/* <List dense>
         {secondaryListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
             <ListItemButton>
@@ -49,7 +63,7 @@ export default function MenuContent() {
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </Stack>
   );
 }

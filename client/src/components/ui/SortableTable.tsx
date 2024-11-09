@@ -68,6 +68,13 @@ function SortableTable({ data }: { data: RatingType[] }): JSX.Element {
     };
   }, [loadMoreRows]);
 
+  const tooltips = {
+    traf: 'Траффик сайта — это количество посетителей, которые приходят на веб-сайт в день',
+    vid: 'Видимость сайта — это показатель, который отражает, насколько хорошо ваш веб-сайт представлен в поисковых системах по ключевым запросам. Это значит, как часто ваш сайт появляется среди результатов поиска на таких платформах, как Google, Яндекс и другие.',
+    top3: 'Позиции в топ-3 поисковых систем',
+    top10: 'Позиции в топ-10 поисковых систем',
+  };
+
   return (
     <TableContainer
       component={Paper}
@@ -77,8 +84,8 @@ function SortableTable({ data }: { data: RatingType[] }): JSX.Element {
       <Table stickyHeader style={{ tableLayout: 'fixed' }}>
         <TableHead>
           <TableRow>
-            <TableCell style={{ width: '50px', fontWeight: 'bold' }}>Rating</TableCell>
-            <TableCell style={{ fontWeight: 'bold' }}>Name</TableCell>
+            <TableCell style={{ width: '50px', fontWeight: 'bold' }}>№</TableCell>
+            <TableCell style={{ fontWeight: 'bold' }}>Сайт</TableCell>
             {['traf', 'vid', 'top3', 'top10'].map((field) => (
               <TableCell
                 key={field}
@@ -89,11 +96,15 @@ function SortableTable({ data }: { data: RatingType[] }): JSX.Element {
                   active={orderBy === field}
                   direction={orderBy === field ? order : 'desc'}
                   onClick={() => handleSortRequest(field as keyof RatingType)}
-                  sx={{ '&.Mui-active, & *': { color: 'blue' } }} 
+                  sx={{ '&.Mui-active, & *': { color: 'blue' } }}
                 >
-                  {field.toUpperCase()}
+                  {field === 'traf'
+                    ? 'Траффик'
+                    : field === 'vid'
+                      ? 'Видимость'
+                      : field.toUpperCase()}
                 </TableSortLabel>
-                <Tooltip title={`Click to sort by ${field}`}>
+                <Tooltip title={tooltips[field]}>
                   <IconButton size="small">
                     <InfoIcon fontSize="inherit" />
                   </IconButton>

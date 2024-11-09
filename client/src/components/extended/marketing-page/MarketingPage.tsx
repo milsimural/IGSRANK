@@ -20,7 +20,7 @@ export default function MarketingPage(): JSX.Element {
       <AppAppBar/>
       <Hero />
       <div>
-        <LogoCollection />
+        {/* <LogoCollection />
         <Features />
         <Divider />
         <Testimonials />
@@ -30,7 +30,7 @@ export default function MarketingPage(): JSX.Element {
         <Pricing />
         <Divider />
         <FAQ />
-        <Divider />
+        <Divider /> */}
         <Footer />
       </div>
     </AppTheme>

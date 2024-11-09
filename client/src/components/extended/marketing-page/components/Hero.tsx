@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -10,6 +11,12 @@ import Typography from '@mui/material/Typography';
 
 import { visuallyHidden } from '@mui/utils';
 import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import screen from 'src/Scrren.png';
+import Context from '../../../../Context'
+
+
+
 
 const StyledBox = styled('div')(({ theme }) => ({
   alignSelf: 'center',
@@ -22,7 +29,7 @@ const StyledBox = styled('div')(({ theme }) => ({
   border: '1px solid',
   borderColor: (theme.vars || theme).palette.grey[200],
   boxShadow: '0 0 12px 8px hsla(220, 25%, 80%, 0.2)',
-  backgroundImage: `url(${'https://mui.com'}/static/screenshots/material-ui/getting-started/templates/dashboard.jpg)`,
+  backgroundImage: `url(${screen})`,
   backgroundSize: 'cover',
   [theme.breakpoints.up('sm')]: {
     marginTop: theme.spacing(10),
@@ -36,7 +43,10 @@ const StyledBox = styled('div')(({ theme }) => ({
   }),
 }));
 
-export default function Hero() {
+export default function Hero(): JSX.Element {
+  const navigate = useNavigate();
+  const value = useContext(Context);
+
   return (
     <Box
       id="hero"
@@ -129,6 +139,7 @@ export default function Hero() {
               color="primary"
               size="medium"
               sx={{ minWidth: 'fit-content' }}
+              onClick={value.user ? () => navigate('/dashboard') : () => navigate('/signup')}
             >
               Начать
             </Button>
