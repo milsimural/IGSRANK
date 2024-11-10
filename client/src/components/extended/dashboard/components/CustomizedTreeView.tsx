@@ -71,7 +71,7 @@ const ITEMS: TreeViewBaseItem<ExtendedTreeItemProps>[] = [
   { id: '5', label: 'Help', color: 'blue' },
 ];
 
-function DotIcon({ color }: { color: string }) {
+function DotIcon({ color }: { color: string }): JSX.Element {
   return (
     <Box sx={{ marginRight: 1, display: 'flex', alignItems: 'center' }}>
       <svg width={6} height={6}>
@@ -83,7 +83,7 @@ function DotIcon({ color }: { color: string }) {
 
 const AnimatedCollapse = animated(Collapse);
 
-function TransitionComponent(props: TransitionProps) {
+function TransitionComponent(props: TransitionProps): JSX.Element {
   const style = useSpring({
     to: {
       opacity: props.in ? 1 : 0,
@@ -100,11 +100,11 @@ type CustomLabelProps = {
   expandable?: boolean;
 };
 
-function CustomLabel({ color, expandable, children, ...other }: CustomLabelProps) {
+function CustomLabel({ color, expandable, children, ...other }: CustomLabelProps): JSX.Element {
   const theme = useTheme();
   const colors = {
-    blue: (theme.vars || theme).palette.primary.main,
-    green: (theme.vars || theme).palette.success.main,
+    blue: theme.palette.primary.main,
+    green: theme.palette.success.main,
   };
 
   const iconColor = color ? colors[color] : null;
@@ -167,7 +167,7 @@ const CustomTreeItem = React.forwardRef(
   },
 );
 
-export default function CustomizedTreeView() {
+export default function CustomizedTreeView(): JSX.Element {
   return (
     <Card
       variant="outlined"

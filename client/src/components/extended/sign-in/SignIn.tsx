@@ -15,12 +15,13 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
+import type { User } from 'src/components/types/user';
 import ForgotPassword from './ForgotPassword';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import AppTheme from '../shared-theme/AppTheme';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import axiosInstance, { setAccessToken } from '../../../axiosInstance';
-import Context from '../../../Context'
+import Context from '../../../Context';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -79,6 +80,13 @@ export default function SignIn(): JSX.Element {
     setOpen(false);
   };
 
+  type Response = {
+    data: {
+      user: User | null;
+      accessToken: string;
+    };
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     if (emailError || passwordError) {
       event.preventDefault();
@@ -87,12 +95,12 @@ export default function SignIn(): JSX.Element {
     const data = new FormData(event.currentTarget);
     event.preventDefault();
     await axiosInstance
-      .post('/auth/login', {
+      .post<Response>('/auth/login', {
         email: data.get('email'),
         password: data.get('password'),
       })
       .then((res) => {
-        value.setUser(res.data.user);
+        value?.setUser(res.data.user);
         setAccessToken(res.data.accessToken);
         navigate('/dashboard');
       });
@@ -170,7 +178,7 @@ export default function SignIn(): JSX.Element {
             <FormControl>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <FormLabel htmlFor="password">Пароль</FormLabel>
-                <Link
+                {/* <Link
                   component="button"
                   type="button"
                   onClick={handleClickOpen}
@@ -178,7 +186,14 @@ export default function SignIn(): JSX.Element {
                   sx={{ alignSelf: 'baseline' }}
                 >
                   Забыли пароль?
-                </Link>
+                </Link> */}
+                {/* <Button
+                  variant="text" // Убедитесь, что кнопка выглядит как ссылка
+                  onClick={handleClickOpen}
+                  sx={{ alignSelf: 'baseline' }}
+                >
+                  Забыли пароль?
+                </Button> */}
               </Box>
               <TextField
                 error={passwordError}
@@ -195,12 +210,18 @@ export default function SignIn(): JSX.Element {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Запомнить меня"
-            />
+            /> */}
             <ForgotPassword open={open} handleClose={handleClose} />
-            <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
+            <Button
+              type="submit"
+              sx={{ mt: 2 }}
+              fullWidth
+              variant="contained"
+              onClick={validateInputs}
+            >
               Войти
             </Button>
             <Typography sx={{ textAlign: 'center' }}>

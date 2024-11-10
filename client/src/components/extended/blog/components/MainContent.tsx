@@ -78,7 +78,7 @@ const SyledCard = styled(Card)(({ theme }) => ({
   flexDirection: 'column',
   padding: 0,
   height: '100%',
-  backgroundColor: (theme.vars || theme).palette.background.paper,
+  backgroundColor: theme.palette.background.paper,
   '&:hover': {
     backgroundColor: 'transparent',
     cursor: 'pointer',
@@ -109,7 +109,7 @@ const StyledTypography = styled(Typography)({
   textOverflow: 'ellipsis',
 });
 
-function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
+function Author({ authors }: { authors: { name: string; avatar: string }[] }): JSX.Element {
   return (
     <Box
       sx={{
@@ -121,12 +121,11 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
         padding: '16px',
       }}
     >
-      <Box
-        sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}
-      >
+      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
         <AvatarGroup max={3}>
           {authors.map((author, index) => (
             <Avatar
+              // eslint-disable-next-line react/no-array-index-key
               key={index}
               alt={author.name}
               src={author.avatar}
@@ -134,16 +133,14 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
             />
           ))}
         </AvatarGroup>
-        <Typography variant="caption">
-          {authors.map((author) => author.name).join(', ')}
-        </Typography>
+        <Typography variant="caption">{authors.map((author) => author.name).join(', ')}</Typography>
       </Box>
       <Typography variant="caption">July 14, 2021</Typography>
     </Box>
   );
 }
 
-export function Search() {
+export function Search(): JSX.Element {
   return (
     <FormControl sx={{ width: { xs: '100%', md: '25ch' } }} variant="outlined">
       <OutlinedInput
@@ -164,20 +161,18 @@ export function Search() {
   );
 }
 
-export default function MainContent() {
-  const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
-    null,
-  );
+export default function MainContent(): JSX.Element {
+  const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(null);
 
-  const handleFocus = (index: number) => {
+  const handleFocus = (index: number): void => {
     setFocusedCardIndex(index);
   };
 
-  const handleBlur = () => {
+  const handleBlur = (): void => {
     setFocusedCardIndex(null);
   };
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     console.info('You clicked the filter chip.');
   };
 
@@ -373,9 +368,7 @@ export default function MainContent() {
           </SyledCard>
         </Grid>
         <Grid size={{ xs: 12, md: 4 }}>
-          <Box
-            sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%' }}
-          >
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%' }}>
             <SyledCard
               variant="outlined"
               onFocus={() => handleFocus(3)}
@@ -399,11 +392,7 @@ export default function MainContent() {
                   <Typography gutterBottom variant="h6" component="div">
                     {cardData[3].title}
                   </Typography>
-                  <StyledTypography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
+                  <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                     {cardData[3].description}
                   </StyledTypography>
                 </div>
@@ -433,11 +422,7 @@ export default function MainContent() {
                   <Typography gutterBottom variant="h6" component="div">
                     {cardData[4].title}
                   </Typography>
-                  <StyledTypography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
+                  <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                     {cardData[4].description}
                   </StyledTypography>
                 </div>

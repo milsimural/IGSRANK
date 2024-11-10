@@ -4,14 +4,14 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Link, Link as RouterLink } from 'react-router-dom';
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import CustomDatePicker from './CustomDatePicker';
+// import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
+// import CustomDatePicker from './CustomDatePicker';
 import NavbarBreadcrumbs from './NavbarBreadcrumbs';
-import MenuButton from './MenuButton';
+// import MenuButton from './MenuButton';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 import Context from '../../../../Context';
 
-import Search from './Search';
+// import Search from './Search';
 
 export default function Header(): JSX.Element {
   const value = useContext(Context);
