@@ -126,7 +126,7 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
     height: '1px',
     bottom: 0,
     left: 0,
-    backgroundColor: (theme.vars || theme).palette.text.primary,
+    backgroundColor: theme.palette.text.primary,
     opacity: 0.3,
     transition: 'width 0.3s ease, opacity 0.3s ease',
   },
@@ -135,7 +135,7 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
   },
 }));
 
-function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
+function Author({ authors }: { authors: { name: string; avatar: string }[] }): JSX.Element {
   return (
     <Box
       sx={{
@@ -146,12 +146,11 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
         justifyContent: 'space-between',
       }}
     >
-      <Box
-        sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}
-      >
+      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1, alignItems: 'center' }}>
         <AvatarGroup max={3}>
           {authors.map((author, index) => (
             <Avatar
+              // eslint-disable-next-line react/no-array-index-key
               key={index}
               alt={author.name}
               src={author.avatar}
@@ -159,25 +158,21 @@ function Author({ authors }: { authors: { name: string; avatar: string }[] }) {
             />
           ))}
         </AvatarGroup>
-        <Typography variant="caption">
-          {authors.map((author) => author.name).join(', ')}
-        </Typography>
+        <Typography variant="caption">{authors.map((author) => author.name).join(', ')}</Typography>
       </Box>
       <Typography variant="caption">July 14, 2021</Typography>
     </Box>
   );
 }
 
-export default function Latest() {
-  const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(
-    null,
-  );
+export default function Latest(): JSX.Element {
+  const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(null);
 
-  const handleFocus = (index: number) => {
+  const handleFocus = (index: number): void => {
     setFocusedCardIndex(index);
   };
 
-  const handleBlur = () => {
+  const handleBlur = (): void => {
     setFocusedCardIndex(null);
   };
 
@@ -188,6 +183,7 @@ export default function Latest() {
       </Typography>
       <Grid container spacing={8} columns={12} sx={{ my: 4 }}>
         {articleInfo.map((article, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <Grid key={index} size={{ xs: 12, sm: 6 }}>
             <Box
               sx={{
@@ -210,10 +206,7 @@ export default function Latest() {
                 className={focusedCardIndex === index ? 'Mui-focused' : ''}
               >
                 {article.title}
-                <NavigateNextRoundedIcon
-                  className="arrow"
-                  sx={{ fontSize: '1rem' }}
-                />
+                <NavigateNextRoundedIcon className="arrow" sx={{ fontSize: '1rem' }} />
               </TitleTypography>
               <StyledTypography variant="body2" color="text.secondary" gutterBottom>
                 {article.description}

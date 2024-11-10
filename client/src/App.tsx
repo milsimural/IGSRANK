@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Layout from './components/Layout';
 import MarketingPage from './components/extended/marketing-page/MarketingPage';
-import CityPage from './components/pages/CityPage';
 import Dashboard from './components/extended/dashboard/Dashboard';
 import axiosInstance, { setAccessToken } from './axiosInstance';
 import SignIn from './components/extended/sign-in/SignIn';
@@ -15,17 +14,22 @@ import store from './store';
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
 
-  const logoutHandler = async (): Promise<void> => {
+  const logoutHandler = useCallback(async (): Promise<void> => {
     await axiosInstance.get('/auth/logout');
     setUser(null);
     setAccessToken('');
+  }, []);
+
+  type RefreshTokenResponse = {
+    user: User;
+    accessToken: string;
   };
 
   useEffect(() => {
-    axiosInstance('/tokens/refresh')
+    axiosInstance<RefreshTokenResponse>({ url: '/tokens/refresh', method: 'GET' })
       .then((res) => {
         setUser(res.data.user);
-        console.log(`Из рефреша пришел User: ${res.data.user}`);
+        console.log(`Из рефреша пришел User: ${JSON.stringify(res.data.user)}`);
         setAccessToken(res.data.accessToken);
       })
       .catch(() => setUser(null));
@@ -38,10 +42,6 @@ function App(): JSX.Element {
         {
           path: '/',
           element: <MarketingPage />,
-        },
-        {
-          path: '/city',
-          element: <CityPage />,
         },
         {
           path: '/signin',
@@ -60,8 +60,13 @@ function App(): JSX.Element {
   ];
   const router = createBrowserRouter(routes);
 
+  const contextValue = useMemo(
+    () => ({ user, setUser, logoutHandler }),
+    [user, setUser, logoutHandler],
+  );
+
   return (
-    <Context.Provider value={{ user, setUser, logoutHandler }}>
+    <Context.Provider value={contextValue}>
       <Provider store={store}>
         <RouterProvider router={router} />;
       </Provider>

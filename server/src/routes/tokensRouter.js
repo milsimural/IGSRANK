@@ -7,17 +7,14 @@ const tokensRouter = express.Router();
 
 tokensRouter.get('/refresh', verifyRefreshToken, async (req, res) => {
   try {
-    const { user } = res.locals; // Получаем пользователя из локальных переменных ответа
+    const { user } = res.locals; 
 
-    // Генерируем новые токены
     const { accessToken, refreshToken } = generateTokens({ user });
 
-    // Устанавливаем refreshToken в куки и отправляем ответ
     res.cookie('refreshToken', refreshToken, cookieConfig);
     res.json({ accessToken, user });
   } catch (error) {
-    console.error('Error refreshing tokens:', error); // Логируем ошибку в консоль
-    res.status(500).json({ message: 'Internal Server Error' }); // Возвращаем статус 500 с сообщением об ошибке
+    res.status(500).json({ message: 'Internal Server Error', error }); 
   }
 });
 

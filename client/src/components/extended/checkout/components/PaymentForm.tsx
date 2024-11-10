@@ -23,7 +23,7 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 
 const Card = styled(MuiCard)<{ selected?: boolean }>(({ theme }) => ({
   border: '1px solid',
-  borderColor: (theme.vars || theme).palette.divider,
+  borderColor: theme.palette.divider,
   width: '100%',
   '&:hover': {
     background:
@@ -45,9 +45,9 @@ const Card = styled(MuiCard)<{ selected?: boolean }>(({ theme }) => ({
     {
       props: ({ selected }) => selected,
       style: {
-        borderColor: (theme.vars || theme).palette.primary.light,
+        borderColor: theme.palette.primary.light,
         ...theme.applyStyles('dark', {
-          borderColor: (theme.vars || theme).palette.primary.dark,
+          borderColor: theme.palette.primary.dark,
         }),
       },
     },
@@ -63,7 +63,7 @@ const PaymentContainer = styled('div')(({ theme }) => ({
   padding: theme.spacing(3),
   borderRadius: `calc(${theme.shape.borderRadius}px + 4px)`,
   border: '1px solid ',
-  borderColor: (theme.vars || theme).palette.divider,
+  borderColor: theme.palette.divider,
   background:
     'linear-gradient(to bottom right, hsla(220, 35%, 97%, 0.3) 25%, hsla(220, 20%, 88%, 0.3) 100%)',
   boxShadow: '0px 4px 8px hsla(210, 0%, 0%, 0.05)',
@@ -85,7 +85,7 @@ const FormGrid = styled('div')(() => ({
   flexDirection: 'column',
 }));
 
-export default function PaymentForm() {
+export default function PaymentForm(): JSX.Element {
   const [paymentType, setPaymentType] = React.useState('creditCard');
   const [cardNumber, setCardNumber] = React.useState('');
   const [cvv, setCvv] = React.useState('');
@@ -93,11 +93,11 @@ export default function PaymentForm() {
 
   const handlePaymentTypeChange = (event: {
     target: { value: React.SetStateAction<string> };
-  }) => {
+  }): void => {
     setPaymentType(event.target.value);
   };
 
-  const handleCardNumberChange = (event: { target: { value: string } }) => {
+  const handleCardNumberChange = (event: { target: { value: string } }): void => {
     const value = event.target.value.replace(/\D/g, '');
     const formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
     if (value.length <= 16) {
@@ -105,14 +105,14 @@ export default function PaymentForm() {
     }
   };
 
-  const handleCvvChange = (event: { target: { value: string } }) => {
+  const handleCvvChange = (event: { target: { value: string } }): void => {
     const value = event.target.value.replace(/\D/g, '');
     if (value.length <= 3) {
       setCvv(value);
     }
   };
 
-  const handleExpirationDateChange = (event: { target: { value: string } }) => {
+  const handleExpirationDateChange = (event: { target: { value: string } }): void => {
     const value = event.target.value.replace(/\D/g, '');
     const formattedValue = value.replace(/(\d{2})(?=\d{2})/, '$1/');
     if (value.length <= 4) {

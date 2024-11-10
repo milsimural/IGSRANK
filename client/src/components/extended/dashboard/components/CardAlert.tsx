@@ -33,21 +33,21 @@ export default function CardAlert(): JSX.Element {
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const value = useContext(Context);
 
-  const handleOpenModal = () => setOpenModal(true);
-  
-  const handleCloseModal = () => setOpenModal(false);
-  
-  const handleDelayCloseModal = () => {
+  const handleOpenModal = (): void => setOpenModal(true);
+
+  const handleCloseModal = (): void => setOpenModal(false);
+
+  const handleDelayCloseModal = (): void => {
     setTimeout(handleCloseModal, 1000); // Закрываем модальное окно через секунду
   };
 
-  const handleSnackbarClose = () => {
+  const handleSnackbarClose = (): void => {
     setSnackbarOpen(false);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (): Promise<void> => {
     try {
-      await axiosInstance.post('/auth/audit', { site, phone, email: value.user?.email });
+      await axiosInstance.post('/auth/audit', { site, phone, email: value?.user?.email });
       setSnackbarMessage('Данные отправлены успешно!');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
@@ -81,7 +81,9 @@ export default function CardAlert(): JSX.Element {
           <Typography variant="h6" component="h2" gutterBottom>
             Заполните данные для аудита
           </Typography>
-          <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>Сайт</Typography>
+          <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+            Сайт
+          </Typography>
           <TextField
             variant="outlined"
             fullWidth
@@ -89,7 +91,9 @@ export default function CardAlert(): JSX.Element {
             onChange={(e) => setSite(e.target.value)}
             sx={{ mb: 2 }}
           />
-          <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>Телефон</Typography>
+          <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+            Телефон
+          </Typography>
           <TextField
             variant="outlined"
             fullWidth
@@ -103,9 +107,9 @@ export default function CardAlert(): JSX.Element {
         </Box>
       </Modal>
 
-      <Snackbar 
-        open={snackbarOpen} 
-        autoHideDuration={6000} 
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
@@ -113,16 +117,16 @@ export default function CardAlert(): JSX.Element {
           {snackbarMessage}
         </Alert> */}
         <Alert
-  onClose={handleSnackbarClose}
-  severity={snackbarSeverity}
-  sx={{
-    width: '100%',
-    bgcolor: snackbarSeverity === 'success' ? 'success.main' : 'error.main',
-    color: 'background.paper'
-  }}
->
-  {snackbarMessage}
-</Alert>
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{
+            width: '100%',
+            bgcolor: snackbarSeverity === 'success' ? 'success.main' : 'error.main',
+            color: 'background.paper',
+          }}
+        >
+          {snackbarMessage}
+        </Alert>
       </Snackbar>
     </>
   );

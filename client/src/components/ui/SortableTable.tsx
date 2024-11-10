@@ -39,9 +39,10 @@ function SortableTable({ data }: { data: RatingType[] }): JSX.Element {
     setRatings(ranking);
   }, [data, order, orderBy, rowsPerPage]);
 
-  const handleSortRequest = (property: keyof RatingType) => {
+  const handleSortRequest = (property: keyof RatingType): void => {
     const isAsc = orderBy === property && order === 'asc';
     const isSameColumn = orderBy === property;
+    // eslint-disable-next-line no-nested-ternary
     setOrder(isSameColumn ? (isAsc ? 'desc' : 'asc') : 'desc');
     setOrderBy(property);
   };
@@ -115,6 +116,7 @@ function SortableTable({ data }: { data: RatingType[] }): JSX.Element {
         </TableHead>
         <TableBody>
           {visibleRows.map((row, index) => (
+            // eslint-disable-next-line react/no-array-index-key
             <TableRow key={index}>
               <TableCell>{ratings[index]}</TableCell>
               <TableCell>{row.name}</TableCell>
