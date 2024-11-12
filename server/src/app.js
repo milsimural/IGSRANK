@@ -3,9 +3,11 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
+const { APP_PATH } = process.env;
+
 const app = express();
 
-app.use((morgan('dev')));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -15,9 +17,14 @@ app.use('/api/tokens', require('./routes/tokensRouter'));
 app.use('/api/admin', require('./routes/adminRouter'));
 app.use('/api/cities', require('./routes/citiesRouter'));
 
-app.use(express.static(path.join(__dirname, '..', 'dist')));
+// app.use(express.static(path.join(__dirname, '..', 'dist')));
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
+// });
+
+app.use(express.static(path.join(APP_PATH, '..', 'dist')));
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
+  res.sendFile(path.join(APP_PATH, '..', 'dist', 'index.html'));
 });
 
 module.exports = app;
