@@ -22,9 +22,9 @@ app.use('/api/cities', require('./routes/citiesRouter'));
 //   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
 // });
 
-app.use(express.static(path.join(APP_PATH, '..', 'dist')));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(APP_PATH, '..', 'dist', 'index.html'));
-});
+// app.use(express.static(path.join(APP_PATH, '..', 'dist')));
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(APP_PATH, '..', 'dist', 'index.html'));
+// });
 
 module.exports = app;

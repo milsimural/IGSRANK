@@ -1,14 +1,10 @@
 require('dotenv').config();
 
 module.exports = {
-  "development": {
-    "use_env_variable": "DATABASE_URL"
+  development: {
+    use_env_variable: 'DB_CONNECTION_STRING',
   },
-  "production": {
-    "username": "DBUSER",
-    "password": "DBPASS",
-    "database": "DBNAME",
-    "host": "DBHOST",
-    "dialect": "postgres"
-  }
-}
+  production: {
+    use_env_variable: 'DB_CONNECTION_STRING',
+  },
+};

@@ -19,7 +19,7 @@ import AppTheme from '../shared-theme/AppTheme';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import ColorModeSelect from '../shared-theme/ColorModeSelect';
 import axiosInstance, { setAccessToken } from '../../../axiosInstance';
-import Context from '../../../Context'
+import Context from '../../../Context';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -133,7 +133,7 @@ export default function SignUp(): JSX.Element {
   };
 
   return (
-    <AppTheme >
+    <AppTheme>
       <CssBaseline enableColorScheme />
       <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
       <SignUpContainer direction="column" justifyContent="space-between">
@@ -196,21 +196,17 @@ export default function SignUp(): JSX.Element {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="allowExtraEmails" color="primary" />}
               label="Я хочу получать новости на email."
-            />
+            /> */}
             <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
               Зарегистрироваться
             </Button>
             <Typography sx={{ textAlign: 'center' }}>
               Уже зарегистрированны?{' '}
               <span>
-                <Link
-                  href="/material-ui/getting-started/templates/sign-in/"
-                  variant="body2"
-                  sx={{ alignSelf: 'center' }}
-                >
+                <Link href="/signin" variant="body2" sx={{ alignSelf: 'center' }}>
                   Войти
                 </Link>
               </span>
