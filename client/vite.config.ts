@@ -17,5 +17,6 @@ export default defineConfig({
     alias: {
       src: '/src',
     },
+    extensions: ['.tsx', '.js', '.ts', '.jsx', '.json', '.mjs', '.mts'],
   },
 });

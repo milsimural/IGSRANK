@@ -78,16 +78,12 @@ export default function Pricing() {
           textAlign: { sm: 'left', md: 'center' },
         }}
       >
-        <Typography
-          component="h2"
-          variant="h4"
-          gutterBottom
-          sx={{ color: 'text.primary' }}
-        >
+        <Typography component="h2" variant="h4" gutterBottom sx={{ color: 'text.primary' }}>
           Тарифы
         </Typography>
         <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-          Гибкие тарифы для каждой компании, если ни одни из тарифов не удовлетворяет вашим потребностям, свяжитесь с нами.
+          Гибкие тарифы для каждой компании, если ни одни из тарифов не удовлетворяет вашим
+          потребностям, свяжитесь с нами.
         </Typography>
       </Box>
       <Grid
@@ -96,10 +92,7 @@ export default function Pricing() {
         sx={{ alignItems: 'center', justifyContent: 'center', width: '100%' }}
       >
         {tiers.map((tier) => (
-          <Grid
-            size={{ xs: 12, sm: tier.title === 'Enterprise' ? 12 : 6, md: 4 }}
-            key={tier.title}
-          >
+          <Grid size={{ xs: 12, sm: tier.title === 'Enterprise' ? 12 : 6, md: 4 }} key={tier.title}>
             <Card
               sx={[
                 {
@@ -132,9 +125,7 @@ export default function Pricing() {
                       alignItems: 'center',
                       gap: 2,
                     },
-                    tier.title === 'Professional'
-                      ? { color: 'grey.100' }
-                      : { color: '' },
+                    tier.title === 'Professional' ? { color: 'grey.100' } : { color: '' },
                   ]}
                 >
                   <Typography component="h3" variant="h6">
@@ -150,9 +141,7 @@ export default function Pricing() {
                       display: 'flex',
                       alignItems: 'baseline',
                     },
-                    tier.title === 'Professional'
-                      ? { color: 'grey.50' }
-                      : { color: null },
+                    tier.title === 'Professional' ? { color: 'grey.50' } : { color: null },
                   ]}
                 >
                   <Typography component="h3" variant="h2">
@@ -164,10 +153,7 @@ export default function Pricing() {
                 </Box>
                 <Divider sx={{ my: 2, opacity: 0.8, borderColor: 'divider' }} />
                 {tier.description.map((line) => (
-                  <Box
-                    key={line}
-                    sx={{ py: 1, display: 'flex', gap: 1.5, alignItems: 'center' }}
-                  >
+                  <Box key={line} sx={{ py: 1, display: 'flex', gap: 1.5, alignItems: 'center' }}>
                     <CheckCircleRoundedIcon
                       sx={[
                         {
@@ -180,12 +166,8 @@ export default function Pricing() {
                     />
                     <Typography
                       variant="subtitle2"
-                      component={'span'}
-                      sx={[
-                        tier.title === 'Professional'
-                          ? { color: 'grey.50' }
-                          : { color: null },
-                      ]}
+                      component="span"
+                      sx={[tier.title === 'Professional' ? { color: 'grey.50' } : { color: null }]}
                     >
                       {line}
                     </Typography>

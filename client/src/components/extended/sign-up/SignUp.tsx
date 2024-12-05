@@ -196,10 +196,10 @@ export default function SignUp(): JSX.Element {
                 color={passwordError ? 'error' : 'primary'}
               />
             </FormControl>
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="allowExtraEmails" color="primary" />}
               label="Я хочу получать новости на email."
-            />
+            > */}
             <Button type="submit" fullWidth variant="contained" onClick={validateInputs}>
               Зарегистрироваться
             </Button>
